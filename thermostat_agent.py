@@ -10,8 +10,8 @@ class SimpleReflexAgentThermostat:
         """ Simulate reading the current temperature & Humidity from the sensor. 
             In a real-world scenario, this would interface with actual hardware.
         """
-        temperature = random.randint(14,39) # in Degrees Celcius
-        humidity = random.randint(20,80) # in Percentage
+        temperature = int(input("Enter current temperature:")) # in Degrees Celcius
+        humidity = int(input("Enter current Humidity:")) # in Percentage
         return [temperature, humidity] # Returning as a list simulated [temperature, humidity]
     
     # Agent Function
@@ -55,3 +55,9 @@ class SimpleReflexAgentThermostat:
             print(f"Step {step + 1}: \n Current Temp = {condition[0]} Degrees Celcius \n Current Humidity = {condition[1]}% \n Action = {action}")
 
             # TO-DO: Simulate time passing
+    
+    @property
+    def ideal_conditions(self):
+        self.ideal_temp = int(input("Enter ideal temperature:")) # in Degrees Celcius
+        self.ideal_humidity = int(input("Enter ideal Humidity:")) # in Percentage
+        return (self.ideal_temp, self.ideal_humidity)
