@@ -1,2 +1,2 @@
-# Reflex_Agent_prac
+# Simple Smart Thermostat
 
