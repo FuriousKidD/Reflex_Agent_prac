@@ -26,13 +26,20 @@ class SimpleReflexAgentThermostat:
             else:
                 return "Turn on Heator"
         # High Temperature
-        if current_temp > self.ideal_temp + 2:
+        elif current_temp > self.ideal_temp + 2:
             if current_humidity < self.ideal_humidity - 10: # Low Humidity
                 return "Turn on AC & Humidifier"
             elif current_humidity > self.ideal_humidity + 10: # High Humidity
                 return "Turn on AC & Dehumidifier"
             else:
                 return "Turn on AC"
+        else:
+            if current_humidity < self.ideal_humidity - 10: # Low Humidity
+                return "Turn on Humidifier"
+            elif current_humidity > self.ideal_humidity + 10: # High Humidity
+                return "Turn on Dehumidifier"
+            else:
+                return "Maintain Current State"
     
     # Simulation Loop
     def run(self, steps = 10):
