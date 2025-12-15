@@ -1,37 +1,50 @@
 import random
 
 class SimpleReflexAgentThermostat:
-    def __init__(self, ideal_temp = 22):
+    def __init__(self, ideal_temp = 22, ideal_humidity = 40):
         self.ideal_temp = ideal_temp
+        self.ideal_humidity = ideal_humidity
     
     # Sensor
     def percieve(self):
-        """ Simulate reading the current temperature from a sensor. 
+        """ Simulate reading the current temperature & Humidity from the sensor. 
             In a real-world scenario, this would interface with actual hardware.
         """
-        return random.randint(15, 30)  # Simulated temperature reading
+        temperature = random.randint(14,39) # in Degrees Celcius
+        humidity = random.randint(20,80) # in Percentage
+        return [temperature, humidity] # Returning as a list simulated [temperature, humidity]
     
     # Agent Function
-    def condition_action(self, current_temp : int):
+    def condition_action(self, current_temp : int, current_humidity : int) :
         """These are the condition-action rules for the thermostat agent."""
+        # Low Temperature
         if current_temp < self.ideal_temp - 2:
-            return "Heater On"
-        elif current_temp > self.ideal_temp + 2:
-            return "AC On"
-        else:
-            return "Maintain Current State"
+            if current_humidity < self.ideal_humidity - 10: # Low Humidity
+                return "Turn on Heator & Humidifier"
+            elif current_humidity > self.ideal_humidity + 10: # High Humidity
+                return "Turn on Heator & Dehumidifier"
+            else:
+                return "Turn on Heator"
+        # High Temperature
+        if current_temp > self.ideal_temp + 2:
+            if current_humidity < self.ideal_humidity - 10: # Low Humidity
+                return "Turn on AC & Humidifier"
+            elif current_humidity > self.ideal_humidity + 10: # High Humidity
+                return "Turn on AC & Dehumidifier"
+            else:
+                return "Turn on AC"
     
     # Simulation Loop
     def run(self, steps = 10):
         for step in range(steps):
 
             # 1. The agent perceives the environment
-            temp = self.percieve()
+            condition = self.percieve()
 
             #2. The agent decides on an action based on its condition-action rules
-            action = self.condition_action(temp)
+            action = self.condition_action(condition[0], condition[1])
 
             # 3. The agent performs the action based on the condition-action rules
-            print(f"Step {step + 1}: Current Temp = {temp} Degrees Celcius, Action = {action}")
+            print(f"Step {step + 1}: \n Current Temp = {condition[0]} Degrees Celcius \n Current Humidity = {condition[1]}% \n Action = {action}")
 
             # TO-DO: Simulate time passing
